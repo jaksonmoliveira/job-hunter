@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400" role="img" aria-label="Job Hunter">
+<defs><radialGradient id="g" cx="80%" cy="50%" r="70%"><stop offset="0" stop-color="#15302A"/><stop offset="1" stop-color="#0E1417"/></radialGradient></defs>
+<rect width="1280" height="400" rx="20" fill="url(#g)"/>
+<circle cx="1010" cy="200" r="150" fill="none" stroke="#24313A" stroke-width="1.5"/>
+<circle cx="1010" cy="200" r="99" fill="none" stroke="#24313A" stroke-width="1.5"/>
+<circle cx="1010" cy="200" r="60" fill="none" stroke="#24313A" stroke-width="1.5"/>
+<circle cx="1010" cy="200" r="24" fill="none" stroke="#24313A" stroke-width="1.5"/>
+<circle cx="1010" cy="200" r="63" fill="none" stroke="#3FBF97" stroke-opacity=".55" stroke-width="2"/>
+<line x1="1010" y1="200" x2="1140" y2="125" stroke="#24313A" stroke-width="1.5"/>
+<line x1="1010" y1="200" x2="1010" y2="350" stroke="#24313A" stroke-width="1.5"/>
+<line x1="1010" y1="200" x2="880" y2="125" stroke="#24313A" stroke-width="1.5"/>
+<path d="M1010,200 L1154.2,241.3 A150,150 0 0 1 1151.0,251.3 Z" fill="#3FBF97" opacity="0.220"/>
+<path d="M1010,200 L1156.7,231.2 A150,150 0 0 1 1154.2,241.3 Z" fill="#3FBF97" opacity="0.202"/>
+<path d="M1010,200 L1158.5,220.9 A150,150 0 0 1 1156.7,231.2 Z" fill="#3FBF97" opacity="0.183"/>
+<path d="M1010,200 L1159.6,210.5 A150,150 0 0 1 1158.5,220.9 Z" fill="#3FBF97" opacity="0.165"/>
+<path d="M1010,200 L1160.0,200.0 A150,150 0 0 1 1159.6,210.5 Z" fill="#3FBF97" opacity="0.147"/>
+<path d="M1010,200 L1159.6,189.5 A150,150 0 0 1 1160.0,200.0 Z" fill="#3FBF97" opacity="0.128"/>
+<path d="M1010,200 L1158.5,179.1 A150,150 0 0 1 1159.6,189.5 Z" fill="#3FBF97" opacity="0.110"/>
+<path d="M1010,200 L1156.7,168.8 A150,150 0 0 1 1158.5,179.1 Z" fill="#3FBF97" opacity="0.092"/>
+<path d="M1010,200 L1154.2,158.7 A150,150 0 0 1 1156.7,168.8 Z" fill="#3FBF97" opacity="0.073"/>
+<path d="M1010,200 L1151.0,148.7 A150,150 0 0 1 1154.2,158.7 Z" fill="#3FBF97" opacity="0.055"/>
+<path d="M1010,200 L1147.0,139.0 A150,150 0 0 1 1151.0,148.7 Z" fill="#3FBF97" opacity="0.037"/>
+<path d="M1010,200 L1142.4,129.6 A150,150 0 0 1 1147.0,139.0 Z" fill="#3FBF97" opacity="0.018"/>
+<line x1="1010" y1="200" x2="1151.0" y2="251.3" stroke="#3FBF97" stroke-width="2.5"/>
+<circle cx="977.2" cy="163.2" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="982.9" cy="141.9" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="996.5" cy="108.1" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="996.5" cy="108.1" r="11" fill="none" stroke="#E6ECEA" stroke-width="1.5"/>
+<circle cx="1013.5" cy="176.3" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1031.8" cy="153.2" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1031.8" cy="153.2" r="11" fill="none" stroke="#E6ECEA" stroke-width="1.5"/>
+<circle cx="1099.4" cy="99.5" r="6.5" fill="#3987e5" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1124.2" cy="176.4" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1104.0" cy="208.2" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1104.0" cy="208.2" r="11" fill="none" stroke="#E6ECEA" stroke-width="1.5"/>
+<circle cx="1097.3" cy="234.7" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1073.8" cy="250.5" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1066.2" cy="280.3" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1066.2" cy="280.3" r="11" fill="none" stroke="#E6ECEA" stroke-width="1.5"/>
+<circle cx="1043.9" cy="302.3" r="6.5" fill="#d95926" stroke="#0E1417" stroke-width="2"/>
+<circle cx="992.3" cy="253.5" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="992.3" cy="253.5" r="11" fill="none" stroke="#E6ECEA" stroke-width="1.5"/>
+<circle cx="941.2" cy="298.2" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="928.9" cy="264.1" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="914.4" cy="238.0" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="943.3" cy="205.8" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="939.0" cy="185.3" r="6.5" fill="#199e70" stroke="#0E1417" stroke-width="2"/>
+<circle cx="1010" cy="200" r="4" fill="#E6ECEA"/>
+<text x="80" y="170" font-family="Archivo, 'Arial Narrow', Helvetica, Arial, sans-serif" font-size="92" font-weight="800" fill="#E6ECEA" letter-spacing="-1">Job <tspan fill="#3FBF97">Hunter</tspan></text>
+<text x="84" y="222" font-family="Archivo, 'Arial Narrow', Helvetica, Arial, sans-serif" font-size="26" fill="#A9B5B9">O caçador de vagas que trabalha enquanto você dorme.</text>
+<text x="84" y="290" font-family="ui-monospace, Menlo, monospace" font-size="18" fill="#7D8A90">Gupy · LinkedIn · InHire → seu currículo → e-mail + portal</text>
+<text x="84" y="330" font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#3FBF97">feito com Claude · Cowork · tarefas agendadas · artifacts</text>
+</svg>
