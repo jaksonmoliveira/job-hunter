@@ -1,0 +1,579 @@
+<title>Job Hunter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --surface-2:#EAEEEA; --ink:#15202A; --ink-2:#4A5763; --ink-3:#7A8691;
+  --line:#D8DED9; --accent:#0E6F58; --accent-ink:#FFFFFF; --accent-soft:#DCEFE7;
+  --hi:#0E6F58; --mid:#A36A00; --lo:#8A94A0; --hi-bg:#DCEFE7; --mid-bg:#F8ECCF; --lo-bg:#ECEFF2;
+  --warn:#B4441F; --warn-bg:#FBE4DA;
+  --font-d:"Archivo","Arial Narrow",system-ui,sans-serif; --font-b:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --font-m:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1417; --surface:#151D22; --surface-2:#1C262C; --ink:#E6ECEA; --ink-2:#A9B5B9; --ink-3:#7D8A90;
+    --line:#26323A; --accent:#3FBF97; --accent-ink:#06231A; --accent-soft:#12352B;
+    --hi:#4FD1A6; --mid:#E3B04B; --lo:#8C979E; --hi-bg:#12352B; --mid-bg:#3A2D10; --lo-bg:#20292F;
+    --warn:#F08A63; --warn-bg:#3B1E14;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1417; --surface:#151D22; --surface-2:#1C262C; --ink:#E6ECEA; --ink-2:#A9B5B9; --ink-3:#7D8A90;
+  --line:#26323A; --accent:#3FBF97; --accent-ink:#06231A; --accent-soft:#12352B;
+  --hi:#4FD1A6; --mid:#E3B04B; --lo:#8C979E; --hi-bg:#12352B; --mid-bg:#3A2D10; --lo-bg:#20292F;
+  --warn:#F08A63; --warn-bg:#3B1E14;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:22px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+h1{font-family:var(--font-d);font-stretch:80%;font-weight:800;font-size:clamp(30px,5vw,44px);letter-spacing:-.01em;line-height:1;margin:0;text-wrap:balance}
+h1 span{color:var(--accent)}
+.sub{color:var(--ink-2);margin:6px 0 0;max-width:62ch}
+.run{font-family:var(--font-m);font-size:12px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--hi);flex:none}
+.dot.err{background:var(--warn)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.kpi{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi b{font-family:var(--font-d);font-stretch:85%;font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi small{color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filters input[type=search],.filters select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:38px}
+.filters input[type=search]{flex:1 1 220px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+label.tog{display:flex;gap:6px;align-items:center;color:var(--ink-2);font-size:13px;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tablebox{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tr.discarded td{opacity:.5}
+.score{font-family:var(--font-m);font-weight:500;font-size:13px;display:inline-flex;align-items:center;justify-content:center;min-width:44px;padding:3px 6px;border-radius:4px;font-variant-numeric:tabular-nums}
+.s-hi{background:var(--hi-bg);color:var(--hi)} .s-mid{background:var(--mid-bg);color:var(--mid)} .s-lo{background:var(--lo-bg);color:var(--lo)}
+.t{font-weight:600;color:var(--ink);text-decoration:none}
+.t:hover{text-decoration:underline;text-decoration-color:var(--accent)}
+.co{color:var(--ink-2)}
+.why{color:var(--ink-3);font-size:12.5px;margin-top:4px;max-width:60ch}
+.tag{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:4px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.tag.new{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.mono{font-family:var(--font-m);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.old{color:var(--warn)}
+.soon{color:var(--warn);font-weight:500}
+select.st{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 6px}
+.cell-stack{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-2)}
+h2{font-family:var(--font-d);font-stretch:85%;font-size:20px;font-weight:700;margin:0}
+.runs{display:grid;gap:8px}
+.runrow{display:grid;grid-template-columns:110px 70px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px}
+.runrow .obs{color:var(--ink-2)}
+.note{font-size:12.5px;color:var(--ink-3)}
+.msg{font-size:13px;color:var(--ink-2);background:var(--surface-2);border-radius:6px;padding:10px 12px}
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{font:inherit;font-weight:600;font-size:14px;background:none;border:0;color:var(--ink-3);padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--ink)}
+/* ---------- painel ---------- */
+:root{--c-en:#2a78d6;--c-op:#eb6834;--c-pr:#1baf7a;--st1:#9CCFBE;--st2:#5DB095;--st3:#2A8C6E;--st4:#0E6F58;--grid:#E1E6E2;--sweep:#0E6F58}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-en:#3987e5;--c-op:#d95926;--c-pr:#199e70;--st1:#1E5A48;--st2:#2A7E64;--st3:#3AA584;--st4:#5FD0AB;--grid:#24313A;--sweep:#3FBF97}}
+:root[data-theme="dark"]{--c-en:#3987e5;--c-op:#d95926;--c-pr:#199e70;--st1:#1E5A48;--st2:#2A7E64;--st3:#3AA584;--st4:#5FD0AB;--grid:#24313A;--sweep:#3FBF97}
+.dash{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card h3{font-family:var(--font-d);font-stretch:85%;font-size:19px;font-weight:700;margin:0;line-height:1.2;text-wrap:balance}
+.card .lede{margin:0;color:var(--ink-2);font-size:13px;max-width:70ch}
+.card svg{width:100%;height:auto;display:block;overflow:visible}
+.span-7{grid-column:span 7}.span-5{grid-column:span 5}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-4{grid-column:span 4}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend i.ring{background:none;border:1.5px solid var(--ink);width:11px;height:11px}
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.hero .tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.hero .tile b{font-family:var(--font-d);font-stretch:80%;font-size:42px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.hero .tile small{color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:600}
+.hero .tile span{color:var(--ink-2);font-size:12.5px}
+.hero .tile.alert b{color:var(--warn)}
+svg text{font-family:var(--font-b);fill:var(--ink-2)}
+svg .lbl{font-size:11px;fill:var(--ink-3)}
+svg .lbl-strong{font-size:13px;font-weight:600;fill:var(--ink)}
+svg .num{font-family:var(--font-d);font-stretch:80%;font-weight:800;fill:var(--ink)}
+.gl{stroke:var(--grid);stroke-width:1;fill:none}
+.f-en{fill:var(--c-en)}.f-op{fill:var(--c-op)}.f-pr{fill:var(--c-pr)}
+.blip{stroke:var(--surface);stroke-width:2;cursor:pointer;transition:r .15s}
+.blip:hover,.bead:hover,.hex:hover,.node:hover{filter:brightness(1.15)}
+.hit{fill:transparent;cursor:pointer}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:6px;padding:8px 10px;font-size:12.5px;max-width:280px;box-shadow:0 6px 20px rgba(0,0,0,.18);line-height:1.35}
+.tip strong{display:block;font-size:13.5px;margin-bottom:2px}
+.tip .k{display:inline-block;width:12px;height:2px;margin-right:6px;vertical-align:middle}
+.tip .m{opacity:.75}
+@keyframes pulse{0%{r:var(--r0);opacity:.9}100%{r:calc(var(--r0) + 10px);opacity:0}}
+.urgent-ring{fill:none;stroke:var(--warn);stroke-width:2;animation:pulse 1.6s ease-out infinite}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.72}}
+.hex.fresh{animation:breathe 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.urgent-ring,.hex.fresh{animation:none}}
+@media (max-width:900px){.span-7,.span-5,.span-8,.span-4{grid-column:span 12}.hero{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .wrap{padding-inline:16px}
+  table,thead,tbody,tr,td{display:block;min-width:0}
+  thead{display:none}
+  tr{padding:12px;border-bottom:1px solid var(--line)}
+  td{border:0;padding:3px 0}
+  .runrow{grid-template-columns:1fr 1fr}
+  .runrow .obs{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Job <span>Hunter</span></h1>
+      <p class="sub" id="subline"></p>
+    </div>
+    <div class="run" id="lastRun"><span class="dot"></span><span>Carregando…</span></div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Seções">
+    <button class="tab" role="tab" id="tabBtn-vagas" aria-selected="true" aria-controls="tab-vagas" data-tab="vagas">Vagas</button>
+    <button class="tab" role="tab" id="tabBtn-painel" aria-selected="false" aria-controls="tab-painel" data-tab="painel">Painel</button>
+  </nav>
+
+  <section id="tab-painel" role="tabpanel" aria-labelledby="tabBtn-painel" hidden style="display:flex;flex-direction:column;gap:16px">
+    <div class="hero" id="hero"></div>
+    <div class="dash">
+      <article class="card span-7">
+        <h3 id="sonarTitle">Sonar de aderência</h3>
+        <p class="lede">Cada ponto é uma vaga. Quanto mais perto do centro, mais ela usa a experiência que você já tem. O feixe varre o radar e acende as vagas que passa.</p>
+        <div id="sonar"></div>
+        <div class="legend area-legend"></div>
+      </article>
+      <article class="card span-5">
+        <h3 id="mapTitle">Constelação de locais</h3>
+        <p class="lede" id="mapLede"></p>
+        <div id="constel"></div>
+      </article>
+      <article class="card span-12">
+        <h3 id="flowTitle">Esteira das candidaturas</h3>
+        <p class="lede">A largura do rio mostra quantas vagas chegaram até cada etapa. As partículas param na etapa em que cada vaga está hoje.</p>
+        <div id="flow"></div>
+      </article>
+      <article class="card span-8">
+        <h3 id="tlTitle">Linha dos prazos</h3>
+        <p class="lede">Cada conta é uma vaga, posicionada no último dia de inscrição. Tamanho = aderência. As que pulsam fecham em até 7 dias e você ainda não se candidatou.</p>
+        <div id="timeline"></div>
+        <div class="legend area-legend"></div>
+      </article>
+      <article class="card span-4">
+        <h3 id="hiveTitle">Colmeia do frescor</h3>
+        <p class="lede">Uma célula por vaga, da mais nova para a mais antiga. Quanto mais escura, mais recente o anúncio. As de até 7 dias respiram.</p>
+        <div id="hive"></div>
+        <div class="legend" style="align-items:center;gap:8px"><span class="note">hoje</span><span style="display:inline-block;width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--st4),var(--st3),var(--st2),var(--st1))"></span><span class="note">60 dias</span></div>
+      </article>
+    </div>
+  </section>
+
+  <div id="tab-vagas" role="tabpanel" aria-labelledby="tabBtn-vagas" style="display:flex;flex-direction:column;gap:22px">
+  <section class="kpis" aria-label="Resumo">
+    <div class="kpi"><small>Vagas ativas</small><b id="kTotal">–</b></div>
+    <div class="kpi"><small>Novas na última varredura</small><b id="kNew">–</b></div>
+    <div class="kpi"><small>Aderência ≥ 75</small><b id="kTop">–</b></div>
+    <div class="kpi"><small>Candidaturas</small><b id="kApplied">–</b></div>
+  </section>
+
+  <section class="filters" aria-label="Filtros">
+    <input type="search" id="q" placeholder="Buscar cargo, empresa ou cidade" aria-label="Buscar">
+    <div class="chips" id="areaChips" role="group" aria-label="Área"></div>
+    <select id="fModelo" aria-label="Modelo de trabalho">
+      <option value="">Todos os modelos</option><option>Presencial</option><option>Híbrido</option><option>Remoto</option><option>Não informado</option>
+    </select>
+    <select id="fStatus" aria-label="Status">
+      <option value="ativas">Em aberto (sem descartadas)</option><option value="">Todos os status</option>
+      <option value="nova">Nova</option><option value="interesse">Tenho interesse</option><option value="candidatei">Candidatei</option><option value="entrevista">Em processo</option><option value="descartada">Descartada</option>
+    </select>
+    <select id="fSort" aria-label="Ordenar">
+      <option value="score">Maior aderência</option><option value="pub">Mais recentes</option><option value="prazo">Prazo mais próximo</option>
+    </select>
+    <label class="tog"><input type="checkbox" id="fOld"> Mostrar com mais de 60 dias</label>
+  </section>
+
+  <div class="msg" id="msg" hidden></div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Aderência</th><th>Vaga</th><th>Local</th><th>Área · nível</th><th>Publicada</th><th>Prazo</th><th>Status</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="7" class="empty">Carregando vagas…</td></tr></tbody>
+    </table>
+  </div>
+  <p class="note">Aderência (0–100) estima quanto a vaga usa sua experiência direta: função e setor iguais pesam mais. Datas do LinkedIn são as do alerta recebido. O status que você escolhe fica salvo e a varredura diária não o altera.</p>
+
+  <section style="display:flex;flex-direction:column;gap:10px">
+    <h2>Varreduras</h2>
+    <div class="runs" id="runs"><div class="note">Carregando…</div></div>
+  </section>
+  </div>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO — edite só este bloco para adaptar o Job Hunter a você.
+   ===================================================================== */
+const CONFIG = {
+  // Uma frase que aparece no topo do portal.
+  resumo: "{{RESUMO_PORTAL}}",
+  // Exatamente 3 áreas. Os nomes precisam ser IGUAIS aos usados no campo "area" pela tarefa agendada.
+  areas: ["{{AREA_1}}", "{{AREA_2}}", "{{AREA_3}}"],
+  // Mapa "Constelação de locais": cidade central + cidades próximas.
+  // Formato: "nome sem acento em minúsculas": [direção em graus (0 = norte, 90 = leste), distância 0 a 1, "Nome exibido"]
+  // A cidade central tem direção 0 e distância 0. Use distância 1 para uma cidade mais distante (ex.: outra região) e informe o rótulo em "distanteRotulo".
+  lugares: {
+    "{{CIDADE_CENTRAL_SEM_ACENTO}}": [0, 0, "{{CIDADE_CENTRAL}}"]
+    // , "exemplo": [45, .4, "Exemplo"]
+  },
+  distante: "",          // chave da cidade distante (opcional), ex.: "campinas"
+  distanteRotulo: ""     // ex.: "≈ 95 km"
+};
+</script>
+<script>
+const PLACES=CONFIG.lugares; const CENTER=Object.keys(PLACES).find(k=>PLACES[k][1]===0)||Object.keys(PLACES)[0];
+const STATUS={nova:"Nova",interesse:"Tenho interesse",candidatei:"Candidatei",entrevista:"Em processo",descartada:"Descartada"};
+let vagas=[], runs=[], area="", db=null;
+const $=id=>document.getElementById(id);
+const today=new Date(); today.setHours(0,0,0,0);
+const daysAgo=s=>{if(!s)return null;const d=new Date(s+"T00:00:00");return Math.round((today-d)/864e5)};
+const fmt=s=>{if(!s)return"—";const [y,m,d]=s.split("-");return `${d}/${m}`};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function pref(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+
+function lastRunDate(){return runs.length?runs[0].data:null}
+function render(){
+  const q=$("q").value.trim().toLowerCase(), fm=$("fModelo").value, fs=$("fStatus").value, old=$("fOld").checked, sort=$("fSort").value;
+  const last=lastRunDate();
+  let list=vagas.filter(v=>{
+    const age=daysAgo(v.publicada);
+    if(!old && age!==null && age>60) return false;
+    if(area && v.area!==area) return false;
+    if(fm && v.modelo!==fm) return false;
+    if(fs==="ativas" && v.status==="descartada") return false;
+    if(fs && fs!=="ativas" && v.status!==fs) return false;
+    if(q && !`${v.titulo} ${v.empresa} ${v.local}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  list.sort((a,b)=> sort==="pub" ? (b.publicada||"").localeCompare(a.publicada||"") : sort==="prazo" ? (a.prazo||"9999").localeCompare(b.prazo||"9999") : (b.score||0)-(a.score||0));
+  const active=vagas.filter(v=>v.status!=="descartada" && (daysAgo(v.publicada)??0)<=60);
+  $("kTotal").textContent=active.length;
+  $("kNew").textContent=last?vagas.filter(v=>v.encontrada===last).length:0;
+  $("kTop").textContent=active.filter(v=>(v.score||0)>=75).length;
+  $("kApplied").textContent=vagas.filter(v=>v.status==="candidatei"||v.status==="entrevista").length;
+  if(!list.length){$("rows").innerHTML=`<tr><td colspan="7" class="empty">${vagas.length?"Nenhuma vaga com esses filtros.":"Ainda não há vagas salvas. A primeira varredura preenche esta tabela."}</td></tr>`;return}
+  $("rows").innerHTML=list.map(v=>{
+    const s=v.score||0, cls=s>=75?"s-hi":s>=60?"s-mid":"s-lo";
+    const age=daysAgo(v.publicada), dl=daysAgo(v.prazo);
+    const soon=v.prazo && dl!==null && -dl<=7;
+    const opts=Object.entries(STATUS).map(([k,l])=>`<option value="${k}"${v.status===k?" selected":""}>${l}</option>`).join("");
+    return `<tr class="${v.status==="descartada"?"discarded":""}">
+      <td><span class="score ${cls}" title="Aderência ao currículo">${s}</span></td>
+      <td><div class="cell-stack"><a class="t" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.titulo)}</a>
+        <span class="co">${esc(v.empresa)} · <span class="tag">${esc(v.fonte)}</span>${v.encontrada===last?' <span class="tag new">nova</span>':""}</span>
+        ${v.porque?`<span class="why">${esc(v.porque)}</span>`:""}</div></td>
+      <td><div class="cell-stack"><span>${esc(v.local)}</span><span class="tag">${esc(v.modelo)}</span></div></td>
+      <td><div class="cell-stack"><span>${esc(v.area)}</span><span class="note">${esc(v.nivel)}</span></div></td>
+      <td class="mono ${age>45?"old":""}">${fmt(v.publicada)}${age!==null?` <span class="note">(${age}d)</span>`:""}</td>
+      <td class="mono ${soon?"soon":""}">${fmt(v.prazo)}</td>
+      <td><select class="st" id="st-${esc(v._id)}" data-id="${esc(v._id)}" aria-label="Status da vaga">${opts}</select></td>
+    </tr>`}).join("");
+}
+function renderRuns(){
+  const r=runs[0];
+  if(r){const err=r.status==="erro";
+    $("lastRun").innerHTML=`<span class="dot ${err?"err":""}"></span><span>Última varredura ${fmt(r.data)}/${r.data.slice(0,4)} · ${r.novas??0} novas${err?" · erro":""}</span>`;
+  } else $("lastRun").innerHTML=`<span class="dot"></span><span>Nenhuma varredura registrada</span>`;
+  $("runs").innerHTML=runs.length?runs.slice(0,15).map(r=>`<div class="runrow"><span class="mono">${fmt(r.data)}/${(r.data||"").slice(0,4)}</span><span class="mono">${r.novas??0} novas</span><span class="obs">${esc(r.status==="erro"?"Erro: ":"")}${esc(r.obs||r.fontes||"")}</span></div>`).join(""):`<div class="note">Nenhuma varredura ainda.</div>`;
+}
+function chips(){
+  const areas=["",...CONFIG.areas];
+  const extra=[...new Set(vagas.map(v=>v.area))].filter(a=>a&&!areas.includes(a));
+  $("areaChips").innerHTML=[...areas,...extra].map(a=>`<button type="button" class="chip" aria-pressed="${a===area}" data-a="${esc(a)}">${a||"Todas as áreas"}</button>`).join("");
+}
+$("areaChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;area=b.dataset.a;pref("hj-area",area);chips();render()});
+["q","fModelo","fStatus","fSort","fOld"].forEach(id=>$(id).addEventListener(id==="q"?"input":"change",()=>{if(id!=="q")pref("hj-"+id,$(id).type==="checkbox"?String($(id).checked):$(id).value);render()}));
+$("rows").addEventListener("change",async e=>{
+  const sel=e.target.closest("select.st"); if(!sel||!db) return;
+  const id=sel.dataset.id, v=vagas.find(x=>x._id===id); const prev=v.status; v.status=sel.value; render();
+  try{await db.doc("vagas/"+id).update({status:sel.value, statusEm:new Date().toISOString().slice(0,10)})}
+  catch(err){v.status=prev;render();showMsg("Não foi possível salvar o status. Recarregue a página e tente de novo.")}
+});
+function showMsg(t){$("msg").textContent=t;$("msg").hidden=!t}
+
+(function applyConfig(){
+  $("subline").textContent=CONFIG.resumo;
+  const cn=PLACES[CENTER]?PLACES[CENTER][2]:"A cidade central";
+  $("mapLede").textContent=`${cn} no centro e as cidades da região na direção real delas. As vagas remotas orbitam por fora. Tamanho do círculo = número de vagas.`;
+  document.querySelectorAll(".area-legend").forEach(el=>{el.innerHTML=["en","op","pr"].map((g,i)=>`<span><i style="background:var(--c-${g})"></i>${esc(CONFIG.areas[i])}</span>`).join("")+`<span><i class="ring"></i>Já candidatei</span>`});
+})();
+(function restore(){
+  const a=pref("hj-area"); if(a!==null) area=a;
+  ["fModelo","fStatus","fSort"].forEach(id=>{const v=pref("hj-"+id); if(v!==null) $(id).value=v});
+  if(pref("hj-fOld")==="true") $("fOld").checked=true;
+  chips();
+})();
+
+/* ================= PAINEL ================= */
+let curTab="vagas", painelDirty=true, anim=null;
+const RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SVGNS="http://www.w3.org/2000/svg";
+const grp=v=>{const i=CONFIG.areas.indexOf(v.area);return i===1?"op":i===2?"pr":"en"};
+const GNAME={en:CONFIG.areas[0],op:CONFIG.areas[1],pr:CONFIG.areas[2]};
+const applied=v=>v.status==="candidatei"||v.status==="entrevista";
+const untilDays=s=>{const a=daysAgo(s);return a===null?null:-a};
+const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
+const byId=new Map();
+
+function setTab(t){
+  curTab=t;
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===t)));
+  $("tab-painel").hidden=t!=="painel"; $("tab-vagas").hidden=t!=="vagas";
+  pref("hj-tab",t);
+  if(t==="painel"){renderPainel()} else stopAnim();
+}
+document.querySelector(".tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)setTab(b.dataset.tab)});
+
+function activeSet(){return vagas.filter(v=>v.status!=="descartada"&&(daysAgo(v.publicada)??0)<=60)}
+
+function renderPainel(){
+  if(!vagas.length){ $("hero").innerHTML=`<div class="tile" style="grid-column:1/-1"><span>Ainda não há vagas salvas para montar o painel.</span></div>`; return }
+  byId.clear(); vagas.forEach(v=>byId.set(v._id,v));
+  const act=activeSet();
+  renderHero(act); renderSonar(act); renderConstel(act); renderFlow(); renderTimeline(act); renderHive(act);
+  painelDirty=false; startAnim();
+}
+
+/* ---- hero tiles with count-up ---- */
+function renderHero(act){
+  const top=act.filter(v=>(v.score||0)>=75).length;
+  const app=vagas.filter(applied).length, proc=vagas.filter(v=>v.status==="entrevista").length;
+  const urg=act.filter(v=>!applied(v)&&v.prazo&&untilDays(v.prazo)>=0&&untilDays(v.prazo)<=7).length;
+  const avg=act.length?Math.round(act.reduce((s,v)=>s+(v.score||0),0)/act.length):0;
+  const T=[["Alta aderência",top,`de ${act.length} vagas ativas têm nota 75 ou mais`,""],["Candidaturas",app,proc?`${proc} já em processo seletivo`:"nenhuma em entrevista ainda",""],["Fecham em 7 dias",urg,"e você ainda não se candidatou",urg?"alert":""],["Aderência média",avg,"nota média das vagas ativas",""]];
+  $("hero").innerHTML=T.map(([k,n,s,c])=>`<div class="tile ${c}"><small>${k}</small><b data-n="${n}">${RM?n:0}</b><span>${s}</span></div>`).join("");
+  if(RM) return;
+  const els=[...$("hero").querySelectorAll("b")], t0=performance.now();
+  (function step(t){const p=Math.min(1,(t-t0)/900), e=1-Math.pow(1-p,3);els.forEach(el=>el.textContent=Math.round(e*+el.dataset.n));if(p<1)requestAnimationFrame(step)})(t0);
+}
+
+/* ---- sonar ---- */
+const SON={C:260,R:210,blips:[]};
+function renderSonar(act){
+  const {C,R}=SON, rOf=s=>R*Math.min(1,Math.max(0,(100-s)/60)), rad=d=>d*Math.PI/180;
+  const SEC={en:[-150,-30],op:[-30,90],pr:[90,210]};
+  let s=`<svg viewBox="-80 -6 680 536" role="img" aria-label="Radar de aderência das vagas">`;
+  [[40,R],[60,rOf(60)],[75,rOf(75)],[90,rOf(90)]].forEach(([v,r])=>{
+    s+=`<circle cx="${C}" cy="${C}" r="${r}" class="gl" ${v===75?'style="stroke:var(--accent);stroke-opacity:.55;stroke-width:1.5"':""}/>`;
+  });
+  [-30,90,210].forEach(a=>s+=`<line x1="${C}" y1="${C}" x2="${C+R*Math.cos(rad(a))}" y2="${C+R*Math.sin(rad(a))}" class="gl"/>`);
+  [[90,rOf(90)],[75,rOf(75)],[60,rOf(60)]].forEach(([v,r])=>s+=`<text class="lbl" x="${C+r*Math.cos(rad(-30))+4}" y="${C+r*Math.sin(rad(-30))-4}">${v}${v===75?" · alta":""}</text>`);
+  // sweep
+  s+=`<g id="sweep" transform="rotate(-60 ${C} ${C})">`;
+  for(let i=0;i<10;i++){const a0=-i*4-4,a1=-i*4;s+=`<path d="M${C},${C} L${C+R*Math.cos(rad(a0))},${C+R*Math.sin(rad(a0))} A${R},${R} 0 0 1 ${C+R*Math.cos(rad(a1))},${C+R*Math.sin(rad(a1))} Z" style="fill:var(--sweep);opacity:${(0.2*(1-i/10)).toFixed(3)}"/>`}
+  s+=`<line x1="${C}" y1="${C}" x2="${C+R}" y2="${C}" style="stroke:var(--sweep);stroke-width:2;opacity:.8"/></g>`;
+  SON.blips=[];
+  let halos="",dots="",hits="";
+  for(const g of ["en","op","pr"]){
+    const L=act.filter(v=>grp(v)===g).sort((a,b)=>(b.score||0)-(a.score||0)), [a0,a1]=SEC[g], pad=9;
+    const [mx,my]=[C+(R+22)*Math.cos(rad((a0+a1)/2)),C+(R+22)*Math.sin(rad((a0+a1)/2))];
+    const anc=Math.abs(Math.cos(rad((a0+a1)/2)))<.3?"middle":Math.cos(rad((a0+a1)/2))>0?"start":"end";
+    s+=`<text class="lbl-strong" x="${mx}" y="${my+4}" text-anchor="${anc}">${GNAME[g]} · ${L.length}</text>`;
+    L.forEach((v,i)=>{
+      const ang=a0+pad+(i+.5)*(a1-a0-2*pad)/Math.max(1,L.length), r=rOf(v.score||0)+(i%2?6:-6)*(rOf(v.score||0)>20);
+      const x=C+r*Math.cos(rad(ang)), y=C+r*Math.sin(rad(ang));
+      SON.blips.push({ang:((ang%360)+360)%360,id:"h-"+SON.blips.length});
+      halos+=`<circle id="h-${SON.blips.length-1}" cx="${x}" cy="${y}" r="13" class="f-${g}" opacity="${RM?.25:0}"/>`;
+      dots+=`<circle cx="${x}" cy="${y}" r="6.5" class="blip f-${g}"/>`+(applied(v)?`<circle cx="${x}" cy="${y}" r="10.5" style="fill:none;stroke:var(--ink);stroke-width:1.5"/>`:"");
+      hits+=`<circle cx="${x}" cy="${y}" r="13" class="hit" tabindex="0" data-vid="${esc(v._id)}"/>`;
+    });
+  }
+  s+=halos+dots+`<circle cx="${C}" cy="${C}" r="4" style="fill:var(--ink)"/><text class="lbl" x="${C}" y="${C+18}" text-anchor="middle">seu perfil</text>`+hits+`</svg>`;
+  $("sonar").innerHTML=s;
+  const n75=act.filter(v=>(v.score||0)>=75).length;
+  $("sonarTitle").textContent=`${n75} ${n75===1?"vaga está":"vagas estão"} dentro do anel de alta aderência`;
+}
+
+/* ---- constellation ---- */
+
+const CON={orbit:[]};
+function renderConstel(act){
+  const cx=240,cy=232,U=150,OR=205, rad=d=>d*Math.PI/180;
+  const groups=new Map(), remote=[];
+  act.forEach(v=>{
+    const city=norm(String(v.local).split(",")[0].split("(")[0]);
+    if(v.modelo==="Remoto"||city==="brasil"||!city){remote.push(v);return}
+    const key=PLACES[city]?city:CENTER; if(!groups.has(key))groups.set(key,[]); groups.get(key).push(v);
+  });
+  let s=`<svg viewBox="0 0 480 470" role="img" aria-label="Mapa estilizado das cidades das vagas">`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="${U*.5}" class="gl"/><circle cx="${cx}" cy="${cy}" r="${U*.85}" class="gl"/>`;
+  s+=`<text class="lbl" x="${cx}" y="16" text-anchor="middle">N</text><line x1="${cx}" y1="22" x2="${cx}" y2="34" class="gl" style="stroke:var(--ink-3)"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="${OR}" style="fill:none;stroke:var(--ink-3);stroke-opacity:.35;stroke-width:1"/>`;
+  s+=`<text class="lbl" x="${cx+OR*Math.cos(rad(40))+6}" y="${cy+OR*Math.sin(rad(40))+14}">Remoto · ${remote.length}</text>`;
+  let spokes="",nodes="",labels="",hits="";
+  [...groups.entries()].forEach(([k,L])=>{
+    const [b,d,name]=PLACES[k], dist=k===CONFIG.distante?U*1.12:d*U;
+    const x=cx+dist*Math.sin(rad(b)), y=cy-dist*Math.cos(rad(b)), r=7+6*Math.sqrt(L.length);
+    if(dist>0) spokes+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="gl" style="stroke:var(--ink-3);stroke-opacity:.4"/>`;
+    if(k===CONFIG.distante&&CONFIG.distanteRotulo) labels+=`<text class="lbl" x="${(cx+x)/2-6}" y="${(cy+y)/2-6}" text-anchor="end">${esc(CONFIG.distanteRotulo)}</text>`;
+    nodes+=`<circle class="node" cx="${x}" cy="${y}" r="${r}" style="fill:var(--accent);fill-opacity:.85;stroke:var(--surface);stroke-width:2"/>`;
+    const sn=Math.sin(rad(b)); labels+=dist===0?`<text class="lbl-strong" x="${x}" y="${y+r+16}" text-anchor="middle">${esc(name)} · ${L.length}</text>`:`<text class="lbl-strong" x="${x+(sn>=0?1:-1)*(r+6)}" y="${y+4}" text-anchor="${sn>=0?"start":"end"}">${esc(name)} · ${L.length}</text>`;
+    hits+=`<circle cx="${x}" cy="${y}" r="${Math.max(r,14)}" class="hit" tabindex="0" data-place="${esc(name)}" data-ids="${esc(L.map(v=>v._id).join("|"))}"/>`;
+  });
+  s+=spokes+nodes+labels+hits;
+  s+=`<g id="orbit">`; CON.orbit=[];
+  remote.forEach((v,i)=>{const a=-90+i*360/Math.max(remote.length,1)+20, x=cx+OR*Math.cos(rad(a)), y=cy+OR*Math.sin(rad(a));
+    s+=`<circle cx="${x}" cy="${y}" r="7" class="blip f-${grp(v)}"/><circle cx="${x}" cy="${y}" r="13" class="hit" tabindex="0" data-vid="${esc(v._id)}"/>`});
+  s+=`</g></svg>`;
+  $("constel").innerHTML=s;
+  const sp=(groups.get(CENTER)||[]).length, tot=act.length;
+  $("mapTitle").textContent=tot?`${Math.round(sp/tot*100)}% das vagas ficam em ${PLACES[CENTER][2]}`:"Constelação de locais";
+}
+
+/* ---- flow ---- */
+const FLOW={parts:[],xs:[110,370,630,890],w:[],cy:100};
+function renderFlow(){
+  const ST=[["nova","Novas"],["interesse","Tenho interesse"],["candidatei","Candidatei"],["entrevista","Em processo"]];
+  const F=vagas.filter(v=>v.status!=="descartada"&&(v.status!=="nova"||(daysAgo(v.publicada)??0)<=60));
+  const at=ST.map(([k])=>F.filter(v=>(v.status||"nova")===k).length);
+  const reached=at.map((_,k)=>at.slice(k).reduce((a,b)=>a+b,0));
+  const disc=vagas.filter(v=>v.status==="descartada").length;
+  const {xs,cy}=FLOW, maxW=124, base=Math.max(reached[0],1);
+  FLOW.w=reached.map(r=>Math.max(5,maxW*r/base)); FLOW.at=at;
+  const X=[30,...xs,970], W=[FLOW.w[0],...FLOW.w,FLOW.w[3]];
+  let top=`M${X[0]},${cy-W[0]/2}`, bot="";
+  for(let i=1;i<X.length;i++){const m=(X[i-1]+X[i])/2;top+=` C${m},${cy-W[i-1]/2} ${m},${cy-W[i]/2} ${X[i]},${cy-W[i]/2}`}
+  bot=`L${X[X.length-1]},${cy+W[W.length-1]/2}`;
+  for(let i=X.length-2;i>=0;i--){const m=(X[i+1]+X[i])/2;bot+=` C${m},${cy+W[i+1]/2} ${m},${cy+W[i]/2} ${X[i]},${cy+W[i]/2}`}
+  let s=`<svg viewBox="0 0 1000 232" role="img" aria-label="Fluxo das vagas por etapa"><defs><linearGradient id="riv" x1="0" x2="1"><stop offset="0" style="stop-color:var(--st1)"/><stop offset=".37" style="stop-color:var(--st2)"/><stop offset=".63" style="stop-color:var(--st3)"/><stop offset=".89" style="stop-color:var(--st4)"/></linearGradient></defs>`;
+  s+=`<path d="${top} ${bot} Z" fill="url(#riv)"/>`;
+  xs.forEach(x=>s+=`<line x1="${x}" y1="${cy-70}" x2="${x}" y2="${cy+70}" style="stroke:var(--surface);stroke-width:2;opacity:.9"/>`);
+  s+=`<g id="parts"></g>`;
+  ST.forEach(([k,l],i)=>{s+=`<text class="num" x="${xs[i]}" y="${cy+104}" text-anchor="middle" font-size="30">${at[i]}</text><text class="lbl-strong" x="${xs[i]}" y="${cy+124}" text-anchor="middle">${l}</text>`;
+    if(i>0&&reached[i-1]) s+=`<text class="lbl" x="${xs[i]}" y="${cy-76}" text-anchor="middle">${Math.round(reached[i]/reached[i-1]*100)}% avançaram</text>`});
+  s+=`<text class="lbl" x="30" y="${cy-76}">Descartadas: ${disc}</text></svg>`;
+  $("flow").innerHTML=s;
+  // particles
+  const g=$("flow").querySelector("#parts"); FLOW.parts=[];
+  const tot=at.reduce((a,b)=>a+b,0);
+  if(tot){ const N=Math.min(90,20+tot*3);
+    for(let i=0;i<N;i++){ let r=Math.random()*tot,k=0; while(r>at[k]){r-=at[k];k++}
+      const c=document.createElementNS(SVGNS,"circle"); c.setAttribute("r",2.4); c.style.fill="var(--surface)"; g.appendChild(c);
+      const p={el:c,k,u:(Math.random()*2-1)*.8,x:30+Math.random()*(xs[k]-30),v:55+Math.random()*60}; FLOW.parts.push(p); placePart(p,1);
+    }}
+  const ap=at[2]+at[3];
+  $("flowTitle").textContent=ap?`${ap} ${ap===1?"vaga já passou":"vagas já passaram"} da etapa de candidatura`:"Esteira das candidaturas";
+}
+function flowW(x){const {xs,w}=FLOW; if(x<=xs[0])return w[0]; for(let i=1;i<xs.length;i++){if(x<=xs[i]){const t=(x-xs[i-1])/(xs[i]-xs[i-1]),e=t*t*(3-2*t);return w[i-1]+(w[i]-w[i-1])*e}} return w[w.length-1]}
+function placePart(p,op){const y=FLOW.cy+p.u*flowW(p.x)/2;p.el.setAttribute("cx",p.x.toFixed(1));p.el.setAttribute("cy",y.toFixed(1));p.el.setAttribute("opacity",op.toFixed(2))}
+
+/* ---- timeline beeswarm ---- */
+function renderTimeline(act){
+  const x0=40,x1=650,D=63,SX=700,base=118, xOf=d=>x0+(x1-x0)*Math.min(Math.max(d,0),D)/D;
+  const items=act.map(v=>({v,d:v.prazo?untilDays(v.prazo):null})).filter(o=>o.d===null||o.d>=0);
+  let s=`<svg viewBox="0 0 760 250" role="img" aria-label="Prazos de inscrição das vagas">`;
+  s+=`<rect x="${x0}" y="20" width="${xOf(7)-x0}" height="196" rx="4" style="fill:var(--warn-bg)"/>`;
+  s+=`<text class="lbl" x="${x0+6}" y="34" style="fill:var(--warn)">até 7 dias</text>`;
+  for(let d=0;d<=D;d+=7){const x=xOf(d),dt=new Date(today.getTime()+d*864e5);
+    s+=`<line x1="${x}" y1="20" x2="${x}" y2="216" class="gl"/><text class="lbl" x="${x}" y="236" text-anchor="middle">${d===0?"hoje":String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")}</text>`}
+  s+=`<line x1="${x0}" y1="16" x2="${x0}" y2="220" style="stroke:var(--accent);stroke-width:2"/>`;
+  s+=`<rect x="${SX-10}" y="20" width="60" height="196" rx="4" style="fill:var(--surface-2)"/><text class="lbl" x="${SX+20}" y="236" text-anchor="middle">sem prazo</text>`;
+  const placed=[]; let marks="",rings="",hits="";
+  items.sort((a,b)=>(b.v.score||0)-(a.v.score||0)).forEach(({v,d})=>{
+    const r=4+(v.score||0)/100*7, x=d===null?SX+20:xOf(d); let y=base,k=0;
+    const ok=yy=>placed.every(p=>Math.hypot(p.x-x,p.y-yy)>=p.r+r+2);
+    while(!ok(y)&&k<80){k++;y=base+(k%2?1:-1)*Math.ceil(k/2)*3}
+    y=Math.max(24+r,Math.min(212-r,y)); placed.push({x,y,r});
+    marks+=`<circle cx="${x}" cy="${y}" r="${r.toFixed(1)}" class="bead blip f-${grp(v)}"/>`;
+    if(applied(v)) rings+=`<circle cx="${x}" cy="${y}" r="${(r+3.5).toFixed(1)}" style="fill:none;stroke:var(--ink);stroke-width:1.5"/>`;
+    else if(d!==null&&d<=7&&!RM) rings+=`<circle cx="${x}" cy="${y}" r="${r.toFixed(1)}" class="urgent-ring" style="--r0:${r.toFixed(1)}px"/>`;
+    else if(d!==null&&d<=7) rings+=`<circle cx="${x}" cy="${y}" r="${(r+3.5).toFixed(1)}" style="fill:none;stroke:var(--warn);stroke-width:2"/>`;
+    if(d!==null&&d>D) marks+=`<text class="lbl" x="${x+r+3}" y="${y+4}">+${d}d</text>`;
+    hits+=`<circle cx="${x}" cy="${y}" r="${Math.max(12,r+4)}" class="hit" tabindex="0" data-vid="${esc(v._id)}"/>`;
+  });
+  s+=rings+marks+hits+`</svg>`;
+  $("timeline").innerHTML=s;
+  const urg=items.filter(o=>!applied(o.v)&&o.d!==null&&o.d<=7).length;
+  $("tlTitle").textContent=urg?`${urg} ${urg===1?"vaga fecha":"vagas fecham"} em até 7 dias sem candidatura sua`:"Nenhuma vaga pendente fecha nos próximos 7 dias";
+}
+
+/* ---- hive ---- */
+function renderHive(act){
+  const L=[...act].sort((a,b)=>(daysAgo(a.publicada)??0)-(daysAgo(b.publicada)??0)), n=L.length;
+  const Wd=360, cols=Math.max(3,Math.ceil(Math.sqrt(n*1.2))), sz=Wd/((cols+.5)*Math.sqrt(3)), hw=Math.sqrt(3)*sz, rows=Math.ceil(n/cols), H=rows*1.5*sz+sz*.6;
+  const col=a=>a<=7?"var(--st4)":a<=15?"var(--st3)":a<=30?"var(--st2)":"var(--st1)";
+  const hex=(cx,cy,s)=>{let p="";for(let i=0;i<6;i++){const a=Math.PI/180*(60*i-30);p+=`${(cx+s*Math.cos(a)).toFixed(1)},${(cy+s*Math.sin(a)).toFixed(1)} `}return p};
+  let s=`<svg viewBox="0 0 ${Wd} ${H.toFixed(0)}" role="img" aria-label="Idade dos anúncios">`;
+  L.forEach((v,i)=>{const r=Math.floor(i/cols),c=i%cols,cx=hw/2+c*hw+(r%2?hw/2:0),cy=sz+r*1.5*sz,a=daysAgo(v.publicada)??0;
+    s+=`<polygon points="${hex(cx,cy,sz-1.5)}" class="hex${a<=7?" fresh":""}" style="fill:${col(a)};animation-delay:${(i*0.13).toFixed(2)}s"/>`;
+    s+=`<polygon points="${hex(cx,cy,sz)}" class="hit" tabindex="0" data-vid="${esc(v._id)}"/>`});
+  s+=`</svg>`;
+  $("hive").innerHTML=s;
+  const f=L.filter(v=>(daysAgo(v.publicada)??0)<15).length;
+  $("hiveTitle").textContent=`${f} de ${n} anúncios têm menos de 15 dias`;
+}
+
+/* ---- animation loop ---- */
+function startAnim(){
+  if(RM||anim) return; let last=performance.now(), ang=-60, orb=0;
+  const tick=t=>{
+    const dt=Math.min(.05,(t-last)/1000); last=t;
+    ang=(ang+dt*48)%360; orb=(orb+dt*5)%360;
+    const sw=document.getElementById("sweep"); if(sw) sw.setAttribute("transform",`rotate(${ang.toFixed(2)} ${SON.C} ${SON.C})`);
+    const a=((ang%360)+360)%360;
+    SON.blips.forEach(b=>{const el=document.getElementById(b.id); if(!el) return; let d=(a-b.ang+360)%360; el.setAttribute("opacity",d<120?(0.55*(1-d/120)).toFixed(3):"0")});
+    const ob=document.getElementById("orbit"); if(ob) ob.setAttribute("transform",`rotate(${orb.toFixed(2)} 240 232)`);
+    FLOW.parts.forEach(p=>{p.x+=p.v*dt; const end=FLOW.xs[p.k]; if(p.x>=end){p.x=30;p.u=(Math.random()*2-1)*.8}
+      const fade=Math.min(1,(end-p.x)/40,(p.x-30)/30+.2); placePart(p,Math.max(0,fade)*.9)});
+    anim=requestAnimationFrame(tick);
+  };
+  anim=requestAnimationFrame(tick);
+}
+function stopAnim(){if(anim)cancelAnimationFrame(anim);anim=null}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopAnim();else if(curTab==="painel")startAnim()});
+
+/* ---- tooltip (textContent only) ---- */
+const tip=$("tip");
+function showTip(el,px,py){
+  tip.replaceChildren();
+  const add=(tag,txt,cls)=>{const e=document.createElement(tag);e.textContent=txt;if(cls)e.className=cls;tip.appendChild(e);return e};
+  if(el.dataset.vid){const v=byId.get(el.dataset.vid); if(!v) return;
+    add("strong",`${v.score} · ${v.titulo}`);
+    const l=document.createElement("div"); const k=document.createElement("span"); k.className="k"; k.style.background=`var(--c-${grp(v)})`; l.appendChild(k); l.appendChild(document.createTextNode(`${v.empresa}`)); tip.appendChild(l);
+    add("div",`${v.local} · ${v.modelo}`,"m");
+    const pa=daysAgo(v.publicada); add("div",`Prazo ${fmt(v.prazo)} · publicada há ${pa??"?"} dias`,"m");
+    add("div",`Status: ${STATUS[v.status]||v.status}`,"m");
+  } else if(el.dataset.place){ const ids=el.dataset.ids.split("|"); add("strong",`${el.dataset.place} · ${ids.length} ${ids.length===1?"vaga":"vagas"}`);
+    ids.slice(0,6).forEach(id=>{const v=byId.get(id); if(v) add("div",`${v.score} · ${v.titulo}`,"m")}); if(ids.length>6) add("div",`+ ${ids.length-6}`,"m");
+  } else return;
+  tip.hidden=false;
+  const r=tip.getBoundingClientRect(); let x=px+14,y=py+14;
+  if(x+r.width>innerWidth-8) x=px-r.width-14; if(y+r.height>innerHeight-8) y=py-r.height-14;
+  tip.style.left=Math.max(8,x)+"px"; tip.style.top=Math.max(8,y)+"px";
+}
+$("tab-painel").addEventListener("pointermove",e=>{const h=e.target.closest(".hit"); if(h) showTip(h,e.clientX,e.clientY); else tip.hidden=true});
+$("tab-painel").addEventListener("pointerleave",()=>tip.hidden=true);
+$("tab-painel").addEventListener("focusin",e=>{const h=e.target.closest(".hit"); if(h){const r=h.getBoundingClientRect();showTip(h,r.right,r.bottom)}});
+$("tab-painel").addEventListener("focusout",()=>tip.hidden=true);
+$("tab-painel").addEventListener("click",e=>{const h=e.target.closest(".hit[data-vid]"); if(h){const v=byId.get(h.dataset.vid); if(v&&v.url){const a=document.createElement("a");a.href=v.url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()}}});
+
+(function initTab(){const h=location.hash.replace("#",""); const t=h==="painel"||h==="vagas"?h:(pref("hj-tab")||"vagas"); setTab(t)})();
+
+(async()=>{
+  db = window.claude ? await window.claude.use("db") : null;
+  if(!db){showMsg("O banco de dados do portal não está disponível nesta visualização. Abra o artifact no claude.ai para ver as vagas.");$("rows").innerHTML=`<tr><td colspan="7" class="empty">Sem acesso aos dados.</td></tr>`;return}
+  db.collection("vagas").limit(1000).onSnapshot(s=>{vagas=s.docs.map(d=>({_id:d.id,...d.data()}));chips();render();painelDirty=true;if(curTab==="painel")renderPainel()},()=>showMsg("A conexão com as vagas caiu. Recarregue a página."));
+  db.collection("execucoes").orderBy("data","desc").limit(60).onSnapshot(s=>{runs=s.docs.map(d=>d.data());renderRuns();render();painelDirty=true;if(curTab==="painel")renderPainel()},()=>{});
+})();
+</script>
