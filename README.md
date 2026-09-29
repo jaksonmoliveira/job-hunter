@@ -40,9 +40,9 @@ flowchart LR
 | Item | Para quê |
 | --- | --- |
 | Plano pago do Claude com Cowork e tarefas agendadas | Rodar a varredura automática |
-| Conector do Gmail ativo no Claude | Enviar o resumo e ler os alertas do LinkedIn |
+| Conector de e-mail ativo no Claude: Gmail, Outlook/Microsoft 365 ou Hostinger | Enviar o resumo e ler os alertas do LinkedIn |
 | Currículo em PDF | Base do filtro e da nota |
-| Alertas de vaga do LinkedIn chegando no Gmail | Trazer as vagas do LinkedIn |
+| Alertas de vaga do LinkedIn chegando numa dessas caixas (iCloud, Yahoo e outros: encaminhe para um Gmail) | Trazer as vagas do LinkedIn |
 
 **Passo a passo (cerca de 15 minutos)**
 

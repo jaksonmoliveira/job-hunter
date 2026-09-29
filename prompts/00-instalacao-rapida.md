@@ -8,7 +8,7 @@ O Claude faz tudo numa conversa: lê seu currículo, pergunta o que falta, cria 
    - seu **currículo em PDF**;
    - [`portal/job-hunter-template.html`](../portal/job-hunter-template.html);
    - [`prompts/02-tarefa-agendada.md`](02-tarefa-agendada.md).
-2. Cole a mensagem abaixo, preenchendo só as quatro primeiras linhas.
+2. Cole a mensagem abaixo, preenchendo só as cinco primeiras linhas.
 3. Responda às perguntas do Claude e aprove os cartões que aparecerem (portal, e-mail e tarefa agendada).
 
 ---
@@ -18,13 +18,14 @@ Meu nome: {{NOME}}
 Meu LinkedIn: {{LINKEDIN_URL}}
 E-mail para receber o resumo: {{EMAIL_DESTINO}}
 Cidade onde moro: {{CIDADE_CENTRAL}}
+Onde chegam meus alertas do LinkedIn (gmail, outlook, hostinger ou nenhuma): {{CAIXA_ALERTAS}} — endereço: {{EMAIL_ALERTAS}}
 
 Quero instalar o Job Hunter, um caçador de vagas diário. Anexei meu currículo em PDF, o arquivo job-hunter-template.html (o portal) e o prompt modelo da tarefa agendada, com variáveis entre {{chaves}}. Faça nesta ordem:
 
 1. Leia meu currículo e escreva um PERFIL_RESUMIDO de 5 a 8 linhas: cargo atual, cargos anteriores com escopo e números, domínio técnico e formação. Liste também as funções que já exerci, meu setor principal e minhas competências-chave.
-2. Com base no currículo, proponha e me pergunte de uma vez só (com opções de múltipla escolha): níveis de cargo aceitos, cidades aceitas para presencial e híbrido, regra para remoto, as 3 áreas prioritárias com descrição, áreas a excluir, idade máxima das vagas em dias (padrão 60) e dias e horário da varredura.
+2. Com base no currículo, proponha e me pergunte de uma vez só (com opções de múltipla escolha): níveis de cargo aceitos, cidades aceitas para presencial e híbrido, regra para remoto, as 3 áreas prioritárias com descrição, áreas a excluir, idade máxima das vagas em dias (padrão 60), dias e horário da varredura e qual conector envia o resumo (REMETENTE). Confira se o conector da caixa dos alertas está ativo; se não estiver, me diga como conectar ou como encaminhar os alertas para um Gmail.
 3. Preencha o bloco CONFIG do job-hunter-template.html (resumo, as 3 áreas com os mesmos nomes do prompt, a minha cidade no centro e as cidades da região com direção e distância aproximadas) e publique como artifact "Job Hunter" com a capability db. Não altere nada fora do CONFIG.
-4. Preencha TODAS as variáveis do prompt modelo com minhas respostas, o perfil e o link do portal. Me mostre o prompt final antes de seguir.
+4. Preencha TODAS as variáveis do prompt modelo com minhas respostas, o perfil, o link do portal e o bloco CONFIGURAÇÃO (CAIXA_ALERTAS, EMAIL_ALERTAS, REMETENTE, EMAIL_DESTINO). Me mostre o prompt final antes de seguir.
 5. Faça a primeira varredura seguindo o prompt final: grave as vagas no portal e me envie o primeiro e-mail.
 6. Crie a tarefa agendada "Job Hunter — vagas diárias" com o prompt final, nos dias e horário que escolhi, no meu fuso horário.
 ```

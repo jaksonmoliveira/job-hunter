@@ -6,6 +6,9 @@ Os exemplos vêm da configuração original do Job Hunter (profissional de opera
 | --- | --- | --- | --- |
 | `{{NOME}}` | Tarefa | Seu nome | Maria Souza |
 | `{{EMAIL_DESTINO}}` | Tarefa | E-mail que recebe o resumo | maria@email.com |
+| `{{CAIXA_ALERTAS}}` | Tarefa | Onde chegam os alertas do LinkedIn: `gmail`, `outlook`, `hostinger` ou `nenhuma` (veja a tabela abaixo) | gmail |
+| `{{EMAIL_ALERTAS}}` | Tarefa | Endereço que recebe os alertas do LinkedIn | maria@email.com |
+| `{{REMETENTE}}` | Tarefa | Conector que envia o resumo: `gmail`, `outlook` ou `hostinger` | gmail |
 | `{{URL_PORTAL}}` | Tarefa | Link do portal criado | claude.ai/artifact/... |
 | `{{LINKEDIN_URL}}` | Tarefa | Link do seu perfil | linkedin.com/in/mariasouza |
 | `{{PERFIL_RESUMIDO}}` | Tarefa | 5 a 8 linhas: cargo atual, anteriores com escopo e números, domínio técnico, formação | Coordenadora de Operações de Energia desde 2026; antes Especialista de Faturamento (500 MWac, 100 mil UCs)... |
@@ -27,6 +30,18 @@ Os exemplos vêm da configuração original do Job Hunter (profissional de opera
 | `{{FUSO_HORARIO}}` | Tarefa | Fuso no formato IANA | America/Sao_Paulo |
 | `{{DIAS_E_HORARIO}}` | Pedido da tarefa | Quando a tarefa roda | de segunda a sexta às 8h |
 | `{{RESUMO_PORTAL}}` | Portal | Frase do topo do portal | Vagas de Analista Sênior a Coordenador em energia, billing e processos. SP, Grande SP, Campinas ou remoto. |
+
+## Qual valor usar em `CAIXA_ALERTAS`
+
+| Seu e-mail | Valor | O que precisa |
+| --- | --- | --- |
+| Gmail | `gmail` | Conector **Gmail** ativo no Claude |
+| Outlook / Microsoft 365 | `outlook` | Conector **Microsoft 365** ativo no Claude. Ele é pensado para contas de trabalho ou escola; se a sua conta pessoal (@outlook.com, @hotmail.com) não conectar, use o encaminhamento abaixo |
+| Domínio próprio na Hostinger | `hostinger` | Conector **Hostinger Mail** ativo no Claude |
+| iCloud, Yahoo, UOL, Terra ou outro sem conector | `gmail` | Crie no seu provedor uma regra que encaminhe automaticamente os e-mails de `@linkedin.com` para um Gmail conectado. Outra saída: trocar o e-mail principal da conta do LinkedIn para esse Gmail |
+| Não quer usar o LinkedIn | `nenhuma` | Nada |
+
+O conector escolhido precisa estar ligado também nas configurações da tarefa agendada, não só na sua conta.
 
 ## O bloco CONFIG do portal
 

@@ -16,7 +16,7 @@ Se você já tem um currículo próprio em PDF, pode usar ele no lugar. O link d
 2. Filtre pela cidade e ligue **Alerta de vaga**.
 3. Em **Gerenciar alertas**, deixe a frequência **Diária** e a notificação por **E-mail**.
 4. Repita para 3 a 5 cargos ou temas diferentes (ex.: "Faturamento", "Billing", o nome do seu setor).
-5. Confirme que os e-mails chegam no Gmail conectado ao Claude, vindos de `jobalerts-noreply@linkedin.com`.
+5. Confirme que os alertas chegam, vindos de `jobalerts-noreply@linkedin.com`, numa caixa que o Claude consegue ler: Gmail, Outlook/Microsoft 365 ou Hostinger, com o conector ativo. Se o seu e-mail for iCloud, Yahoo ou outro sem conector, encaminhe os alertas para um Gmail. Veja [`variaveis.md`](variaveis.md#qual-valor-usar-em-caixa_alertas).
 
 ## 3. Gupy e outros portais
 
