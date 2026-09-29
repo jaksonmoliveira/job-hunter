@@ -22,14 +22,31 @@ Os exemplos vêm da configuração original do Job Hunter (profissional de opera
 | `{{AREA_1}}` a `{{AREA_3}}` | Tarefa e portal | Nomes curtos das 3 áreas, **iguais nos dois lugares** | Energia · Operações & Billing · Processos & Automação |
 | `{{DESCRICAO_AREA_1}}` a `{{DESCRICAO_AREA_3}}` | Tarefa | O que conta como cada área | GD, geração solar, faturamento de energia, Mercado Livre, CCEE |
 | `{{AREAS_EXCLUIDAS}}` | Tarefa | O que nunca interessa | TI/desenvolvimento, vendas pura, jurídico, varejo de loja |
-| `{{FUNCOES_JA_EXERCIDAS}}` | Tarefa | Funções que você já fez | coordenação de operações, faturamento/billing, portfólio GD |
 | `{{SETOR_PRINCIPAL}}` | Tarefa | Seu setor | energia / GD / Mercado Livre |
-| `{{COMPETENCIAS_CHAVE}}` | Tarefa | Competências que valorizam a vaga | automação, IA, dados, processos |
 | `{{CARGO_ALVO}}` | Tarefa | Cargo principal para buscas na web | coordenador de operações |
-| `{{TERMOS_DE_BUSCA}}` | Tarefa | 15 a 25 termos para a Gupy, separados por ponto e vírgula | coordenador de operações; especialista de faturamento; billing; geração distribuída; energia |
+| `{{TERMOS_DE_BUSCA}}` | Tarefa | 20 a 30 termos para a Gupy, separados por ponto e vírgula. Inclua termos amplos (ex.: "faturamento", "energia") além dos cargos | coordenador de operações; faturamento; billing; geração distribuída; energia; CCEE |
+| `{{DIA_VARREDURA_COMPLETA}}` | Tarefa | Dia da semana em que a tarefa revarre a janela inteira (nos outros dias busca só desde a última execução) | segunda-feira |
 | `{{FUSO_HORARIO}}` | Tarefa | Fuso no formato IANA | America/Sao_Paulo |
 | `{{DIAS_E_HORARIO}}` | Pedido da tarefa | Quando a tarefa roda | de segunda a sexta às 8h |
 | `{{RESUMO_PORTAL}}` | Portal | Frase do topo do portal | Vagas de Analista Sênior a Coordenador em energia, billing e processos. SP, Grande SP, Campinas ou remoto. |
+
+## Palavras da nota de aderência
+
+A nota é calculada por um script Python dentro do prompt, sempre com as mesmas regras. Cada variável abaixo é uma **lista Python** de palavras em minúsculas e **sem acento** (o script remove os acentos dos anúncios antes de comparar).
+
+| Variável | Pontos | O que colocar | Exemplo |
+| --- | --- | --- | --- |
+| `{{PALAVRAS_FUNCAO_TITULO}}` | +40 | Funções que você já exerceu, como aparecem em títulos de vaga | `["faturamento","billing","garantia de receita","coordenador de operacoes","geracao distribuida"]` |
+| `{{PALAVRAS_FUNCAO_PARCIAL}}` | +20 | Palavras de título que indicam função parecida | `["operacoes","processos","backoffice"]` |
+| `{{PALAVRAS_FUNCAO_DESCRICAO}}` | +25 | Atividades suas que aparecem na descrição (precisa de 2 ou mais) | `["faturamento","titularidade","cadastro","medicao","sla","backlog"]` |
+| `{{PALAVRAS_SETOR}}` | +25 | Seu setor | `["energia","eletrica","solar","mercado livre","ccee","distribuidora"]` |
+| `{{PALAVRAS_SETOR_AFIM}}` | +10 | Setores vizinhos | `["gas","saneamento","utilities","telecom"]` |
+| `{{PALAVRAS_NIVEL_ALTO}}` | +15 | Níveis mais altos que você aceita | `["coordenador","coordenadora","supervisor","especialista","lider","lead"]` |
+| `{{PALAVRAS_NIVEL_SENIOR}}` | +10 | Marcas de sênior | `["senior","sr","iii"]` |
+| `{{PALAVRAS_NIVEL_EXCLUIDO}}` | zera | Níveis que você não quer (ignorado se o título também tiver um nível alto, como "Coordenador/Gerente") | `["junior","jr","pleno","pl","assistente","estagio","trainee","gerente","diretor"]` |
+| `{{PALAVRAS_COMPETENCIAS}}` | +10 | Competências que valorizam a vaga | `["automacao","ia","dados","bi","processos","sql","crm"]` |
+
+Os outros +10 vêm do local: vaga em `{{CIDADE_CENTRAL}}`, híbrida ou remota. A nota vai até 100 e só entram vagas com 50 ou mais.
 
 ## Qual valor usar em `CAIXA_ALERTAS`
 

@@ -29,8 +29,9 @@ flowchart LR
 ```
 
 - **Filtro pelo seu perfil.** Nível do cargo, cidades aceitas, remoto, áreas de interesse e idade máxima da vaga (padrão: 60 dias).
-- **Nota de aderência.** Cada vaga ganha uma nota e uma frase explicando por que combina com a sua experiência.
-- **Sem repetição.** A tarefa lê o portal antes de cada varredura: vaga já vista não volta, e o status que você marcou nunca é apagado.
+- **Nota de aderência.** Cada vaga ganha uma nota de 0 a 100 por regra fixa (sempre a mesma para a mesma vaga) e uma frase explicando por que combina com a sua experiência.
+- **Sem repetição.** Toda vaga avaliada, aprovada ou descartada, fica registrada no portal: vaga já vista não volta, e o status que você marcou nunca é apagado.
+- **Varredura confiável.** Busca incremental desde a última execução, janela completa uma vez por semana, checagem de que a fonte está trazendo vagas recentes e funil por fonte no e-mail.
 - **E-mail diário.** Tabela ordenada por aderência, com as prioridades do dia no topo. Chega mesmo quando não há vaga nova, para você saber que a varredura rodou.
 
 ## Instalação
@@ -95,7 +96,7 @@ job-hunter/
 - O LinkedIn bloqueia leitura automática: entram só as vagas dos seus **alertas por e-mail**.
 - InHire e outros portais entram por busca na web, com cobertura menor que a da Gupy.
 - Cada varredura consome uso do seu plano. Se apertar, rode menos dias ou use menos termos.
-- A nota de aderência é uma estimativa. Leia sempre o anúncio antes de se candidatar.
+- A nota de aderência é uma regra de palavras-chave. Leia sempre o anúncio antes de se candidatar.
 
 Mais respostas em [`docs/faq.md`](docs/faq.md).
 

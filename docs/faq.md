@@ -28,4 +28,10 @@ O painel usa uma cor por área, e três é o máximo em que as cores continuam f
 Não. O portal e a tarefa são privados da sua conta. O modelo deste repositório não tem dado de ninguém.
 
 **A nota de aderência é exata?**
-É uma estimativa do Claude a partir do anúncio e do seu perfil. Leia sempre a vaga antes de se candidatar.
+É uma regra fixa de palavras-chave aplicada ao título e ao resumo do anúncio, calculada por um script que o próprio Claude roda. Ela é consistente (a mesma vaga sempre tira a mesma nota), mas não lê nas entrelinhas. Leia sempre a vaga antes de se candidatar e, se as notas estiverem altas ou baixas demais, ajuste as listas `PALAVRAS_*` ([`variaveis.md`](variaveis.md#palavras-da-nota-de-aderência)).
+
+**Como sei se uma fonte parou de funcionar?**
+O rodapé do e-mail traz o funil de cada fonte (lidas, na janela, pré-filtro, mantidas). A tarefa também confere se a vaga mais recente da Gupy é de ontem ou de hoje; se não for, tenta de novo e marca a execução como "alerta".
+
+**Por que a mesma vaga descartada não volta?**
+Toda vaga avaliada fica na coleção `vistas` do portal, com a decisão e o motivo. A tarefa pula o que já está lá.
